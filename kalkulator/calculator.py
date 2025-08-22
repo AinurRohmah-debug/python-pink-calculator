@@ -15,6 +15,10 @@ main_frame.place(relx=0.5, rely=0.5, anchor="center")  # auto center
 
 # Entry
 e = Entry(main_frame,width=15,borderwidth=5,justify="right")
+
+# Remove this line if you want to allow manual typing in the entry
+e.bind("<Key>", lambda event: "break") # # Prevents the user from typing directly into the entry
+
 e["font"] = myfont
 e["bg"]= "#fff0f5"  # LavenderBlush (soft pink)  
 e.grid(row=0,column=0,columnspan=4,padx=10,pady=15)
@@ -22,8 +26,13 @@ e.grid(row=0,column=0,columnspan=4,padx=10,pady=15)
 # ===== FUNGSI =====
 def angka(nilai):
     sebelum = e.get()
-    e.delete(0,END)
-    e.insert(0,str(sebelum)+str(nilai))
+
+    # If the entry currently shows 'Error', clear it before inserting the new value
+    if sebelum == 'Error':
+       e.delete(0, END)
+       e.insert(0, str(nilai)) 
+    else:
+        e.insert(END, str(nilai))
 
 def tambah():
     global n_awal, mtk
